@@ -6,7 +6,7 @@
 #include <linux/kernel.h>
 
 
-static int hello_init(void) {
+static int __init hello_init(void) {
 
   printk("<1> Hello world!\n");
 
@@ -16,7 +16,7 @@ static int hello_init(void) {
 
 
 
-static void hello_exit(void) {
+static void __exit hello_exit(void) {
 
   printk("<1> Bye, cruel world\n");
 
