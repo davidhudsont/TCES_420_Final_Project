@@ -5,6 +5,10 @@
 
 #include <linux/kernel.h>
 
+MODULE_LICENSE("GPL");              ///< The license type -- this affects runtime behavior
+MODULE_AUTHOR("David Hudson, David Vercillo, Thien Nguyen");      ///< The author -- visible when you use modinfo
+MODULE_DESCRIPTION("Finally");  ///< The description -- see modinfo
+MODULE_VERSION("0.1");  
 
 static int __init hello_init(void) {
 
