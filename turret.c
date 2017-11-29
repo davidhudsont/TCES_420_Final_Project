@@ -17,14 +17,14 @@ MODULE_VERSION("0.1");
 
 static unsigned int gpio_fire = 32;
 module_param(gpio_fire,uint,S_IRUGO);
-MODULE_PARAM_DESC(gpio_fire,"GPIO FIRE NUMBER (default=32)");
+MODULE_PARM_DESC(gpio_fire, " GPIO LED number (default=32)");     ///< parameter description
 
 enum modes { TURN, RAISE, FIRE, STANDBY};
 static enum modes mode = STANDBY;
 
 static int __init turret_init(void) {
   gpio_request(gpio_fire,"sysfs");
-  gpio_direction(gpio_fire,true);
+  gpio_direction_output(gpio_fire,true);
   gpio_export(gpio_fire,false);
   printk("<1> Loading Turret Module\n");
   return 0;
