@@ -23,9 +23,10 @@ enum modes { TURN, RAISE, FIRE, STANDBY};
 static enum modes mode = STANDBY;
 
 static int __init turret_init(void) {
-
-  printk("<1> Loading Turret Module\n");
+  gpio_request(gpio_fire,"sysfs");
+  gpio_direction(gpio_fire,true);
   gpio_export(gpio_fire,false);
+  printk("<1> Loading Turret Module\n");
   return 0;
 
 }
@@ -33,9 +34,10 @@ static int __init turret_init(void) {
 
 
 static void __exit turret_exit(void) {
-
-  printk("<1> Remove Turret Module\n");
+  gpio_set_value(gpio_fire,0);
   gpio_unexport(gpio_fire);
+  gpio_free(gpio_fire);
+  printk("<1> Remove Turret Module\n");
 }
 
 
