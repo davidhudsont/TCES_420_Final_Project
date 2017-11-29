@@ -1,15 +1,19 @@
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
+#i
 
 MODULE_LICENSE("GPL");              ///< The license type -- this affects runtime behavior
 MODULE_AUTHOR("David Hudson, David Vercillo, Thien Nguyen");      ///< The author -- visible when you use modinfo
 MODULE_DESCRIPTION("This module controls the DreamCheeky Turret");  ///< The description -- see modinfo
 MODULE_VERSION("0.1");  
 
-static int __init hello_init(void) {
+enum modes { TURN, RAISE, FIRE, STANDBY};
+static enum modes mode = STANDBY;
 
-  printk("<1> Hello world!\n");
+static int __init turret_init(void) {
+
+  printk("<1> Loading Turret Module\n");
 
   return 0;
 
@@ -17,14 +21,14 @@ static int __init hello_init(void) {
 
 
 
-static void __exit hello_exit(void) {
+static void __exit turret_exit(void) {
 
-  printk("<1> Bye, cruel world\n");
+  printk("<1> Remove Turret Module\n");
 
 }
 
 
 
-module_init(hello_init);
+module_init(turret_init);
 
-module_exit(hello_exit);
+module_exit(turret_exit);
