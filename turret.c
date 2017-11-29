@@ -1,12 +1,23 @@
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
-#i
+#include <linux/gpio.h>       // Required for the GPIO functions
+#include <linux/kobject.h>    // Using kobjects for the sysfs bindings
+#include <linux/kthread.h>    // Using kthreads for the flashing functionality
+#include <linux/delay.h>      // Using this header for the msleep() function
 
 MODULE_LICENSE("GPL");              ///< The license type -- this affects runtime behavior
 MODULE_AUTHOR("David Hudson, David Vercillo, Thien Nguyen");      ///< The author -- visible when you use modinfo
 MODULE_DESCRIPTION("This module controls the DreamCheeky Turret");  ///< The description -- see modinfo
 MODULE_VERSION("0.1");  
+
+// 5V Pins 2 and 4 are for powering the turret
+// GND Pins 6,9,14,20,25,30,34,39
+// GPIO Pins 29,31,32,33,35,36,37,38,40
+
+static unsigned int gpio_fire = 32;
+module_param(gpio_fire,uint,S_IRUGO);
+MODULE_PARAM_DESC(gpio_fire,"GPIO FIRE NUMBER (default=32)");
 
 enum modes { TURN, RAISE, FIRE, STANDBY};
 static enum modes mode = STANDBY;
@@ -14,7 +25,7 @@ static enum modes mode = STANDBY;
 static int __init turret_init(void) {
 
   printk("<1> Loading Turret Module\n");
-
+  gpio_export(gpio_fire,false);
   return 0;
 
 }
@@ -24,7 +35,7 @@ static int __init turret_init(void) {
 static void __exit turret_exit(void) {
 
   printk("<1> Remove Turret Module\n");
-
+  gpio_unexport(gpio_fire);
 }
 
 
