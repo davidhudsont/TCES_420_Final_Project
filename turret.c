@@ -15,8 +15,24 @@ MODULE_VERSION("0.1");
 // GND Pins 6,9,14,20,25,30,34,39
 // GPIO Pins 05,06,12,13,16,19,20,21,26
 static unsigned int gpio_fire = 12;
+static unsigned int gpio_turn_c = 05;
+static unsigned int gpio_turn_cc = 06;
+static unsigned int gpio_raise_turret = 13;
+static unsigned int gpio_lower_turret = 19;
+
 module_param(gpio_fire,uint,S_IRUGO);
-MODULE_PARM_DESC(gpio_fire, " GPIO LED number (default=12)");     ///< parameter description
+MODULE_PARM_DESC(gpio_fire, " GPIO Fire number (default=12)");     ///< parameter description
+module_param(gpio_turn_c,uint,S_IRUGO);
+MODULE_PARM_DESC(gpio_turn_c, " GPIO Turn Clockwise number (default=05)");     ///< parameter description
+
+module_param(gpio_turn_cc,uint,S_IRUGO);
+MODULE_PARM_DESC(gpio_turn_cc, " GPIO Turn Counter Clockwise number (default=06)");     ///< parameter description
+
+module_param(gpio_raise_turret,uint,S_IRUGO);
+MODULE_PARM_DESC(gpio_raise_turret, " GPIO Turn Clockwise number (default=13)");     ///< parameter description
+
+module_param(gpio_lower_turret,uint,S_IRUGO);
+MODULE_PARM_DESC(gpio_lower_turret, " GPIO Turn Clockwise number (default=19)");     ///< parameter description
 
 //enum modes { TURN, RAISE, FIRE, STANDBY};
 //static enum modes mode = STANDBY;
