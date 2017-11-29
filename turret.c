@@ -13,11 +13,10 @@ MODULE_VERSION("0.1");
 
 // 5V Pins 2 and 4 are for powering the turret
 // GND Pins 6,9,14,20,25,30,34,39
-// GPIO Pins 29,31,32,33,35,36,37,38,40
-
-static unsigned int gpio_fire = 32;
+// GPIO Pins 05,06,12,13,16,19,20,21,26
+static unsigned int gpio_fire = 12;
 module_param(gpio_fire,uint,S_IRUGO);
-MODULE_PARM_DESC(gpio_fire, " GPIO LED number (default=32)");     ///< parameter description
+MODULE_PARM_DESC(gpio_fire, " GPIO LED number (default=12)");     ///< parameter description
 
 //enum modes { TURN, RAISE, FIRE, STANDBY};
 //static enum modes mode = STANDBY;
