@@ -36,8 +36,19 @@ MODULE_PARM_DESC(gpio_raise_turret, " GPIO Turn Clockwise number (default=13)");
 module_param(gpio_lower_turret,uint,S_IRUGO);
 MODULE_PARM_DESC(gpio_lower_turret, " GPIO Turn Clockwise number (default=19)");     ///< parameter description
 
-//enum modes { TURN, RAISE, FIRE, STANDBY};
-//static enum modes mode = STANDBY;
+module_param(nr_missiles,uint,S_IRUGO);
+MODULE_PARAM_DESC(nr_missiles, " Amount of missiles remaing (min = 0 && max = 4, default = 4)");
+
+enum modes { TURN, RAISE, FIRE, STANDBY};
+static enum modes mode = STANDBY;
+
+static ssize_t nr_missiles_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf){
+    return sprintf(buf,"Number of missiles remaining: %d\n", nr_missiles);
+}
+
+static ssize_t nr_missiles_reset(struct kobject *kobj, struct kobj_attribute *attr, char *buf){
+    nr_missiles = 4;
+}
 
 static int __init turret_init(void) {
   gpio_request(gpio_fire,"sysfs");
