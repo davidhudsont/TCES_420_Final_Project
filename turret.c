@@ -20,6 +20,8 @@ static unsigned int gpio_turn_cc = 06;
 static unsigned int gpio_raise_turret = 13;
 static unsigned int gpio_lower_turret = 19;
 
+static unsigned int nr_missiles = 4;
+
 module_param(gpio_fire,uint,S_IRUGO);
 MODULE_PARM_DESC(gpio_fire, " GPIO Fire number (default=12)");     ///< parameter description
 module_param(gpio_turn_c,uint,S_IRUGO);
