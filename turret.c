@@ -95,10 +95,11 @@ static int __init turret_init(void) {
 
 
 static void __exit turret_exit(void) {
+    kobject_put(pi_kobj);
     gpio_set_value(gpio_fire,0);
     gpio_unexport(gpio_fire);
     gpio_free(gpio_fire);
-    printk("<1> Remove Turret Module\n");
+    printk(KERN_INFO "Removing Turret Module\n");
 }
 
 
