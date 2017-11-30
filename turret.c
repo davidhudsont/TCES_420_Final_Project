@@ -39,8 +39,6 @@ MODULE_PARM_DESC(gpio_lower_turret, " GPIO Turn Clockwise number (default=19)");
 module_param(nr_missiles,uint,S_IRUGO);
 MODULE_PARAM_DESC(nr_missiles, " Amount of missiles remaing (min = 0 && max = 4, default = 4)");
 
-enum modes { TURN, RAISE, FIRE, STANDBY};
-static enum modes mode = STANDBY;
 
 static ssize_t NR_MISSILES_REMAINING(struct kobject *kobj, struct kobj_attribute *attr, char *buf){
     return sprintf(buf,"Number of missiles remaining: %d\n", nr_missiles);
@@ -102,8 +100,5 @@ static void __exit turret_exit(void) {
     printk(KERN_INFO "Removing Turret Module\n");
 }
 
-
-
 module_init(turret_init);
-
 module_exit(turret_exit);
