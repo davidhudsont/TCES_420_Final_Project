@@ -42,15 +42,20 @@ MODULE_PARAM_DESC(nr_missiles, " Amount of missiles remaing (min = 0 && max = 4,
 enum modes { TURN, RAISE, FIRE, STANDBY};
 static enum modes mode = STANDBY;
 
-static ssize_t nr_missiles_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf){
+static ssize_t NR_MISSILES_REMAINING(struct kobject *kobj, struct kobj_attribute *attr, char *buf){
     return sprintf(buf,"Number of missiles remaining: %d\n", nr_missiles);
 }
 
-static ssize_t nr_missiles_reset(struct kobject *kobj, struct kobj_attribute *attr, char *buf){
-    nr_missiles = 4;
+static ssize_t SET_NR_MISSILES(struct kobject *kobj, struct kobj_attribute *attr, char *buf,size_t count){
+    unsigned int amount;
+    sscanf(buf,"%du",&amount);
+    if ((amount>0)&&(amount <=4)){
+        nr_missiles = amount;
+    } 
+    return amount;
 }
 
-static struct kobj_attribute nr_missile_attr = __ATTR(nr_missile,0666,nr_missiles_show,nr_missiles_reset);
+static struct kobj_attribute nr_missile_attr = __ATTR(nr_missile,0666,NR_MISSILES_REMAINING,SET_NR_MISSILES);
 
 static struct attribute *ebb_attrs[] = {
     &nr_missile_attr.attr;
