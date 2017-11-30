@@ -50,22 +50,50 @@ static ssize_t nr_missiles_reset(struct kobject *kobj, struct kobj_attribute *at
     nr_missiles = 4;
 }
 
+static struct kobj_attribute nr_missile_attr = __ATTR(nr_missile,0666,nr_missiles_show,nr_missiles_reset);
+
+static struct attribute *ebb_attrs[] = {
+    &nr_missile_attr.attr;
+    NULL,  
+};
+
+static struct attribute_group attr_group = {
+    .name = "Turret";
+    .attrs = ebb_attrs,
+};
+
+static struct kobject *pi_kobj;
+static struct task_struct *task;
+
 static int __init turret_init(void) {
-  gpio_request(gpio_fire,"sysfs");
-  gpio_direction_output(gpio_fire,true);
-  gpio_export(gpio_fire,false);
-  printk("<1> Loading Turret Module\n");
-  return 0;
+    int result = 0;
+    pi_kobj = kobject_create_and_add("pi", kernel_kobj->parent);
+    if (!pi_kobj){
+        printk(KERN_ALERT "Failed to create kobject\n");
+        kobject_put(pi_kobj);
+        return -ENOMEM;
+    }
+    result = sysfs_create_group(pi_kobj, &attr_group);
+    if (result){
+        printk(KERN_ALERT "Turret : failed to create sysfs group\n");
+        kobject_put(pi_kobj);
+        return result;
+    }
+    gpio_request(gpio_fire,"sysfs");
+    gpio_direction_output(gpio_fire,true);
+    gpio_export(gpio_fire,false);
+    printk("<1> Loading Turret Module\n");
+    return result;
 
 }
 
 
 
 static void __exit turret_exit(void) {
-  gpio_set_value(gpio_fire,0);
-  gpio_unexport(gpio_fire);
-  gpio_free(gpio_fire);
-  printk("<1> Remove Turret Module\n");
+    gpio_set_value(gpio_fire,0);
+    gpio_unexport(gpio_fire);
+    gpio_free(gpio_fire);
+    printk("<1> Remove Turret Module\n");
 }
 
 
