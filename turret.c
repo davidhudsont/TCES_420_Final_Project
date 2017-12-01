@@ -44,7 +44,7 @@ static ssize_t NR_MISSILES_REMAINING(struct kobject *kobj, struct kobj_attribute
     return sprintf(buf,"Number of missiles remaining: %d\n", nr_missiles);
 }
 
-static ssize_t SET_NR_MISSILES(struct kobject *kobj, struct kobj_attribute *attr, char *buf,size_t count){
+static ssize_t SET_NR_MISSILES(struct kobject *kobj, struct kobj_attribute *attr, const char *buf, size_t count){
     unsigned int amount;
     sscanf(buf,"%du",&amount);
     if ((amount>0)&&(amount <=4)){
