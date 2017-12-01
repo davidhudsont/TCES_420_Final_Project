@@ -53,7 +53,7 @@ static ssize_t SET_NR_MISSILES(struct kobject *kobj, struct kobj_attribute *attr
     return amount;
 }
 
-static struct kobj_attribute nr_missile_attr = __ATTR(nr_missile,0660,NR_MISSILES_REMAINING,SET_NR_MISSILES);
+static struct kobj_attribute nr_missile_attr = __ATTR_RW_MISSILE(nr_missile,(S_IWUSR|S_IRUGO),NR_MISSILES_REMAINING,SET_NR_MISSILES);
 
 static struct attribute *ebb_attrs[] = {
     &nr_missile_attr.attr,
