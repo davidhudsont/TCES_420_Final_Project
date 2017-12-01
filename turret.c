@@ -21,6 +21,10 @@ static unsigned int gpio_raise_turret = 13;
 static unsigned int gpio_lower_turret = 19;
 
 static unsigned int nr_missiles = 4;
+static int rotation_h = 0;
+static int rotation_v = 0;
+static unsigned int fire_one = 0;
+static unsigned int fire_all = 0;
 
 module_param(gpio_fire,uint,S_IRUGO);
 MODULE_PARM_DESC(gpio_fire, " GPIO Fire number (default=12)");     ///< parameter description
@@ -52,6 +56,8 @@ static ssize_t SET_NR_MISSILES(struct kobject *kobj, struct kobj_attribute *attr
     } 
     return count;
 }
+
+
 
 static struct kobj_attribute nr_missile_attr = __ATTR(nr_missile,(S_IWUSR|S_IRUGO),NR_MISSILES_REMAINING,SET_NR_MISSILES);
 
