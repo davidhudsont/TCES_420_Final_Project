@@ -47,7 +47,7 @@ static ssize_t NR_MISSILES_REMAINING(struct kobject *kobj, struct kobj_attribute
 static ssize_t SET_NR_MISSILES(struct kobject *kobj, struct kobj_attribute *attr, const char *buf, size_t count){
     unsigned int amount;
     sscanf(buf,"%du",&amount);
-    if ((amount>0)&&(amount <=4)){
+    if ((amount>=0)&&(amount <=4)){
         nr_missiles = amount;
     } 
     return amount;
