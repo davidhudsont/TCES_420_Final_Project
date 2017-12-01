@@ -60,13 +60,14 @@ static struct attribute *ebb_attrs[] = {
     NULL,  
 };
 
+static char tname[7] = "Turret";
 static struct attribute_group attr_group = {
-    .name = "Turret",
+    .name = tname,
     .attrs = ebb_attrs,
 };
 
 static struct kobject *pi_kobj;
-static struct task_struct *task;
+//static struct task_struct *task;
 
 static int __init turret_init(void) {
     int result = 0;
