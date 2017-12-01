@@ -36,7 +36,7 @@ MODULE_PARM_DESC(gpio_raise_turret, " GPIO Turn Clockwise number (default=13)");
 module_param(gpio_lower_turret,uint,S_IRUGO);
 MODULE_PARM_DESC(gpio_lower_turret, " GPIO Turn Clockwise number (default=19)");     ///< parameter description
 
-module_param(nr_missiles,uint,S_IWUGO);
+module_param(nr_missiles,uint,S_IRUGO);
 MODULE_PARM_DESC(nr_missiles, " Amount of missiles remaing (max = 4 and min = 0, default=4)");
 
 
