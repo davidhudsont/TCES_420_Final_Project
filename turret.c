@@ -37,7 +37,7 @@ module_param(gpio_lower_turret,uint,S_IRUGO);
 MODULE_PARM_DESC(gpio_lower_turret, " GPIO Turn Clockwise number (default=19)");     ///< parameter description
 
 module_param(nr_missiles,uint,S_IRUGO);
-MODULE_PARAM_DESC(nr_missiles, " Amount of missiles remaing (min = 0 && max = 4, default = 4)");
+MODULE_PARAM_DESC(nr_missiles, " Amount of missiles remaing (default=4)")cd;
 
 
 static ssize_t NR_MISSILES_REMAINING(struct kobject *kobj, struct kobj_attribute *attr, char *buf){
