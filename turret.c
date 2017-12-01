@@ -50,7 +50,7 @@ static ssize_t SET_NR_MISSILES(struct kobject *kobj, struct kobj_attribute *attr
     if ((amount>=0)&&(amount <=4)){
         nr_missiles = amount;
     } 
-    return amount;
+    return count;
 }
 
 static struct kobj_attribute nr_missile_attr = __ATTR(nr_missile,(S_IWUSR|S_IRUGO),NR_MISSILES_REMAINING,SET_NR_MISSILES);
