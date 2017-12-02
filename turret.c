@@ -114,18 +114,18 @@ static int FIRING(void *arg) {
     while(!kthread_should_stop()){
         set_current_state(TASK_RUNNING);
         if (FIRE_ONE == 1 && nr_missiles > 0) {
-            gpio_set_value(FIRE_ONE);
+            gpio_set_value(gpio_fire,FIRE_ONE);
             sleep(6);
             nr_missiles--;
             FIRE_ONE = 0;
-            gpio_set_value(FIRE_ONE);
+            gpio_set_value(gpio_fire,FIRE_ONE);
         }
         else if (FIRE_ALL == 1 && nr_missiles > 0) {
-            gpio_set_value(FIRE_ALL);
+            gpio_set_value(gpio_fire,FIRE_ALL);
             sleep(6*nr_missiles);
             nr_missiles = 0;
             FIRE_ALL = 0;
-            gpio_set_value(FIRE_ALL);
+            gpio_set_value(gpio_fire,FIRE_ALL);
         }
         else {}
     }
