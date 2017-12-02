@@ -120,6 +120,7 @@ static int FIRING(void *arg) {
             nr_missiles--;
             FIRE_ONE = 0;
             gpio_set_value(gpio_fire,FIRE_ONE);
+            
         }
         else if (FIRE_ALL == 1 && nr_missiles > 0) {
             gpio_set_value(gpio_fire,FIRE_ALL);
@@ -127,8 +128,10 @@ static int FIRING(void *arg) {
             nr_missiles = 0;
             FIRE_ALL = 0;
             gpio_set_value(gpio_fire,FIRE_ALL);
+            
         }
         else {}
+        set_current_state(TASK_INTERRUPTIBLE);
     }
     printk(KERN_INFO "Turret Firing: Thread has run to completion\n");
     return 0;
