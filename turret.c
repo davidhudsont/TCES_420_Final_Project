@@ -5,7 +5,7 @@
 #include <linux/kobject.h>    // Using kobjects for the sysfs bindings
 #include <linux/kthread.h>    // Using kthreads for the flashing functionality
 #include <linux/delay.h>      // Using this header for the msleep() function
-#include <linux/unistd.h>
+
 
 MODULE_LICENSE("GPL");              ///< The license type -- this affects runtime behavior
 MODULE_AUTHOR("David Hudson, David Vercillo, Thien Nguyen");      ///< The author -- visible when you use modinfo
@@ -116,14 +116,14 @@ static int FIRING(void *arg) {
         set_current_state(TASK_RUNNING);
         if (FIRE_ONE == 1 && nr_missiles > 0) {
             gpio_set_value(gpio_fire,FIRE_ONE);
-            sleep(6);
+            ssleep(6);
             nr_missiles--;
             FIRE_ONE = 0;
             gpio_set_value(gpio_fire,FIRE_ONE);
         }
         else if (FIRE_ALL == 1 && nr_missiles > 0) {
             gpio_set_value(gpio_fire,FIRE_ALL);
-            sleep(6*nr_missiles);
+            ssleep(6*nr_missiles);
             nr_missiles = 0;
             FIRE_ALL = 0;
             gpio_set_value(gpio_fire,FIRE_ALL);
