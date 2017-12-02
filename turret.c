@@ -114,23 +114,24 @@ static int FIRING(void *arg) {
     printk(KERN_INFO "Turret Firing: Thread has started running\n");
     while(!kthread_should_stop()){
         set_current_state(TASK_RUNNING);
-        if (FIRE_ONE == 1 && nr_missiles > 0) {
+        if ((FIRE_ONE == 1) && (nr_missiles > 0)) {
             gpio_set_value(gpio_fire,FIRE_ONE);
             ssleep(6);
             nr_missiles--;
             FIRE_ONE = 0;
             gpio_set_value(gpio_fire,FIRE_ONE);
+            set_current_state(TASK_INTERRUPTIBLE);
             
         }
-        else if (FIRE_ALL == 1 && nr_missiles > 0) {
+        else if ((FIRE_ALL == 1) && (nr_missiles > 0)) {
             gpio_set_value(gpio_fire,FIRE_ALL);
             ssleep(6*nr_missiles);
             nr_missiles = 0;
             FIRE_ALL = 0;
             gpio_set_value(gpio_fire,FIRE_ALL);
+            set_current_state(TASK_INTERRUPTIBLE);
             
         }
-        else {}
         set_current_state(TASK_INTERRUPTIBLE);
     }
     printk(KERN_INFO "Turret Firing: Thread has run to completion\n");
