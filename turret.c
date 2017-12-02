@@ -5,6 +5,7 @@
 #include <linux/kobject.h>    // Using kobjects for the sysfs bindings
 #include <linux/kthread.h>    // Using kthreads for the flashing functionality
 #include <linux/delay.h>      // Using this header for the msleep() function
+#include <linux/mutex.h>
 
 
 MODULE_LICENSE("GPL");              ///< The license type -- this affects runtime behavior
@@ -26,6 +27,7 @@ static int rotation_h = 0;
 static int rotation_v = 0;
 static unsigned int FIRE_ONE = 0;
 static unsigned int FIRE_ALL = 0;
+static struct mutex lock;
 
 module_param(gpio_fire,uint,S_IRUGO);
 MODULE_PARM_DESC(gpio_fire, " GPIO Fire pin (default=12)");     ///< parameter description
@@ -56,11 +58,13 @@ static ssize_t NR_MISSILES_REMAINING(struct kobject *kobj, struct kobj_attribute
 }
 
 static ssize_t SET_NR_MISSILES(struct kobject *kobj, struct kobj_attribute *attr, const char *buf, size_t count){
-    unsigned int amount;
+    mutex_lock(&lock);
+	unsigned int amount;
     sscanf(buf,"%du",&amount);
     if ((amount>=0)&&(amount <=4)){
         nr_missiles = amount;
     } 
+	mutex_unlock(&lock);
     return count;
 }
 
@@ -69,24 +73,28 @@ static ssize_t FIRE_ONE_SHOW(struct kobject *kobj, struct kobj_attribute *attr, 
 }
 
 static ssize_t FIRE_ONE_SET(struct kobject *kobj, struct kobj_attribute *attr, const char *buf, size_t count){
-    unsigned int amount;
+    mutex_lock(&lock);
+	unsigned int amount;
     sscanf(buf,"%du",&amount);
     if (amount == 1){
         FIRE_ONE = amount;
     } 
+	mutex_unlock(&lock);
     return count;
 }
 
 static ssize_t FIRE_ALL_SHOW(struct kobject *kobj, struct kobj_attribute *attr, char *buf){
-    return sprintf(buf,"FIRE ALL STATE: %d\n", FIRE_ALL);
+    return sprintf(buf,"FIRE ALL STATE: %d\n", FIRE_ONE);
 }
 
 static ssize_t FIRE_ALL_SET(struct kobject *kobj, struct kobj_attribute *attr, const char *buf, size_t count){
-    unsigned int amount;
+    mutex_lock(&lock);
+	unsigned int amount;
     sscanf(buf,"%du",&amount);
     if (amount == 1){
         FIRE_ALL = amount;
     } 
+	mutex_unlock(&lock);
     return count;
 }
 static struct kobj_attribute nr_missile_attr = __ATTR(nr_missile,(S_IWUSR|S_IRUGO),NR_MISSILES_REMAINING,SET_NR_MISSILES);
@@ -113,6 +121,7 @@ static struct task_struct *task_fire;
 static int FIRING(void *arg) {
     printk(KERN_INFO "Turret Firing: Thread has started running\n");
     while(!kthread_should_stop()){
+	mutex_lock(&lock);
         set_current_state(TASK_RUNNING);
         if ((FIRE_ONE == 1) && (nr_missiles > 0)) {
             gpio_set_value(gpio_fire,FIRE_ONE);
@@ -120,26 +129,25 @@ static int FIRING(void *arg) {
             nr_missiles--;
             FIRE_ONE = 0;
             gpio_set_value(gpio_fire,FIRE_ONE);
-            set_current_state(TASK_INTERRUPTIBLE);
-            
         }
-        else if ((FIRE_ALL == 1) && (nr_missiles > 0)) {
+        if ((FIRE_ALL == 1) &&( nr_missiles > 0)) {
             gpio_set_value(gpio_fire,FIRE_ALL);
             ssleep(6*nr_missiles);
             nr_missiles = 0;
             FIRE_ALL = 0;
             gpio_set_value(gpio_fire,FIRE_ALL);
-            set_current_state(TASK_INTERRUPTIBLE);
-            
         }
-        set_current_state(TASK_INTERRUPTIBLE);
+	mutex_unlock(&lock);
+	set_current_state(TASK_INTERRUPTIBLE);
     }
     printk(KERN_INFO "Turret Firing: Thread has run to completion\n");
     return 0;
 }
 
 static int __init turret_init(void) {
-    int result = 0;
+	mutex_init(&lock);
+	mutex_lock(&lock);
+	int result = 0;
     pi_kobj = kobject_create_and_add("pi", kernel_kobj->parent);
     if (!pi_kobj){
         printk(KERN_ALERT "Failed to create kobject\n");
@@ -161,6 +169,7 @@ static int __init turret_init(void) {
         return PTR_ERR(task_fire);
     }
     printk("<1> Loading Turret Module\n");
+	mutex_unlock(&lock);
     return result;
 
 }
