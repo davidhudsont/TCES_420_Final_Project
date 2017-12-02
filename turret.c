@@ -5,6 +5,7 @@
 #include <linux/kobject.h>    // Using kobjects for the sysfs bindings
 #include <linux/kthread.h>    // Using kthreads for the flashing functionality
 #include <linux/delay.h>      // Using this header for the msleep() function
+#inlcude <linux/unistd.h>
 
 MODULE_LICENSE("GPL");              ///< The license type -- this affects runtime behavior
 MODULE_AUTHOR("David Hudson, David Vercillo, Thien Nguyen");      ///< The author -- visible when you use modinfo
