@@ -78,7 +78,7 @@ static ssize_t FIRE_ONE_SET(struct kobject *kobj, struct kobj_attribute *attr, c
 }
 
 static ssize_t FIRE_ALL_SHOW(struct kobject *kobj, struct kobj_attribute *attr, char *buf){
-    return sprintf(buf,"FIRE ALL STATE: %d\n", FIRE_ONE);
+    return sprintf(buf,"FIRE ALL STATE: %d\n", FIRE_ALL);
 }
 
 static ssize_t FIRE_ALL_SET(struct kobject *kobj, struct kobj_attribute *attr, const char *buf, size_t count){
