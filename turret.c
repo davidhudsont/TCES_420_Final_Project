@@ -192,13 +192,13 @@ static int FIRING(void *arg) {
     return 0;
 }
 static int Rotation_H(void *arg) {
-	printk(KERN_INFO "Turret Firing: Thread has started running\n");
+	printk(KERN_INFO "Turret Rotation_H: Thread has started running\n");
 	while(!kthread_should_stop()){
 		mutex_lock(&firing_lock);
 		set_current_state(TASK_RUNNING);
 		if (rotation_h > 0) {
 			gpio_set_value(gpio_turn_c,true);
-			msleep(rotation_h);
+			msleep(rotation_h*10);
 			gpio_set_value(gpio_turn_c,false);
 			mutex_lock(&rotation_h_lock);
 			rotation_h = 0;
@@ -207,7 +207,7 @@ static int Rotation_H(void *arg) {
 		else if (rotation_h < 0) {
 			gpio_set_value(gpio_turn_cc,true);
 			rotation_h = -1*rotation_h;
-			msleep(rotation_h);
+			msleep(rotation_h*10);
 			gpio_set_value(gpio_turn_cc,false);
 			mutex_lock(&rotation_h_lock);
 			rotation_h = 0;
@@ -216,12 +216,12 @@ static int Rotation_H(void *arg) {
 		mutex_unlock(&firing_lock);
 		set_current_state(TASK_INTERRUPTIBLE);
 	}
-	printk(KERN_INFO "Turret Firing: Thread has run to completion\n");
+	printk(KERN_INFO "Turret Rotation_H: Thread has run to completion\n");
 	return 0;
 }
 
 static int Rotation_V(void *arg) {
-	printk(KERN_INFO "Turret Firing: Thread has started running\n");
+	printk(KERN_INFO "Turret Rotation_V: Thread has started running\n");
 	while(!kthread_should_stop()){
 		mutex_lock(&firing_lock);
 		set_current_state(TASK_RUNNING);
@@ -235,8 +235,8 @@ static int Rotation_V(void *arg) {
 		}
 		else if (rotation_v < 0) {
 			gpio_set_value(gpio_lower_turret,true);
-			rotation_h = -1*rotation_v;
-			msleep(rotation_h);
+			rotation_v = -1*rotation_v;
+			msleep(rotation_v);
 			gpio_set_value(gpio_lower_turret,false);
 			mutex_lock(&rotation_v_lock);
 			rotation_v = 0;
@@ -245,7 +245,7 @@ static int Rotation_V(void *arg) {
 		mutex_unlock(&firing_lock);
 		set_current_state(TASK_INTERRUPTIBLE);
 	}
-	printk(KERN_INFO "Turret Firing: Thread has run to completion\n");
+	printk(KERN_INFO "Turret Rotation_V: Thread has run to completion\n");
 	return 0;
 }
 
