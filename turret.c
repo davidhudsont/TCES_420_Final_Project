@@ -31,6 +31,7 @@ static struct mutex firing_lock;
 static struct mutex fire_one_lock;
 static struct mutex fire_all_lock;
 static struct mutex nr_missiles_lock;
+static struct mutex rotation_h_lock;
 
 module_param(gpio_fire,uint,S_IRUGO);
 MODULE_PARM_DESC(gpio_fire, " GPIO Fire pin (default=12)");     ///< parameter description
@@ -120,6 +121,7 @@ static struct attribute_group attr_group = {
 
 static struct kobject *pi_kobj;
 static struct task_struct *task_fire;
+static struct task_struct *task_rotate_h;
 
 static int FIRING(void *arg) {
     printk(KERN_INFO "Turret Firing: Thread has started running\n");
@@ -154,7 +156,34 @@ static int FIRING(void *arg) {
     printk(KERN_INFO "Turret Firing: Thread has run to completion\n");
     return 0;
 }
-
+static int Rotation_H(void *arg) {
+    printk(KERN_INFO "Turret Firing: Thread has started running\n");
+    while(!kthread_should_stop()){
+		mutex_lock(&firing_lock);
+        set_current_state(TASK_RUNNING);
+		if (rotation_h > 0) {
+			gpio_set_value(gpio_turn_c,true);
+			msleep(rotation_h);
+			gpio_set_value(gpio_turn_c,false);
+			mutex_lock(&rotation_h_lock);
+			rotation_h = 0;
+			mutex_unlock(&rotation_h_lock);
+		}
+		else if (rotation_h < 0) {
+			gpio_set_value(gpio_turn_c,true);
+			rotation_h = -1*rotation_h;
+			msleep(rotation_h);
+			gpio_set_value(gpio_turn_c,false);
+			mutex_lock(&rotation_h_lock);
+			rotation_h = 0;
+			mutex_unlock(&rotation_h_lock);
+		}
+		mutex_unlock(&firing_lock);
+		set_current_state(TASK_INTERRUPTIBLE);
+    }
+    printk(KERN_INFO "Turret Firing: Thread has run to completion\n");
+    return 0;
+}
 static int __init turret_init(void) {
 	mutex_init(&firing_lock);
 	mutex_init(&nr_missiles_lock);
@@ -177,7 +206,8 @@ static int __init turret_init(void) {
     gpio_direction_output(gpio_fire,false);
     gpio_export(gpio_fire,false);
     task_fire = kthread_run(FIRING, NULL, "FIRE_THREAD");
-    if (IS_ERR(task_fire)) {
+	task_rotate_h = kthread_run(Rotation_H,NULL,"Rotation_Thread");
+    if (IS_ERR((task_fire) || (task_rotate_h))) {
         printk(KERN_ALERT "Turret: Failed to create the task\n");
         return PTR_ERR(task_fire);
     }
