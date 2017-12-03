@@ -305,8 +305,8 @@ static int __init turret_init(void) {
 
 static void __exit turret_exit(void) {
    	kthread_stop(task_fire);
-	kthread_strop(task_rotate_h);
-	kthread_strop(task_rotate_v);
+	kthread_stop(task_rotate_h);
+	kthread_stop(task_rotate_v);
 	
     	kobject_put(pi_kobj);
     	gpio_set_value(gpio_fire,0);
