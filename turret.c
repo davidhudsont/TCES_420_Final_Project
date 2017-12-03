@@ -294,9 +294,9 @@ static int __init turret_init(void) {
 	task_rotate_h = kthread_run(Rotation_H,NULL,"Rotation_H_Thread");
 	task_rotate_v = kthread_run(Rotation_V,NULL,"Rotation_V_Thread");
 
-	if (IS_ERR((task_fire)|(task_rotate_h)|(task_rotate_v))) {
+	if (IS_ERR((task_fire)||(task_rotate_h)||(task_rotate_v))) {
 	printk(KERN_ALERT "Turret: Failed to create the task\n");
-	return PTR_ERR((task_fire)|(task_rotate_h)|(task_rotate_v));
+	return PTR_ERR((task_fire)||(task_rotate_h)||(task_rotate_v));
 	}
 	printk("<1> Loading Turret Module\n");
 	return result;
