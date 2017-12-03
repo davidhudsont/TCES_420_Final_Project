@@ -206,7 +206,9 @@ static int Rotation_H(void *arg) {
 		}
 		else if (rotation_h < 0) {
 			gpio_set_value(gpio_turn_cc,true);
+			mutex_lock(&rotation_h_lock);
 			rotation_h = -1*rotation_h;
+			mutex_unlock(&rotation_h_lock);
 			msleep(rotation_h*10);
 			gpio_set_value(gpio_turn_cc,false);
 			mutex_lock(&rotation_h_lock);
@@ -235,7 +237,9 @@ static int Rotation_V(void *arg) {
 		}
 		else if (rotation_v < 0) {
 			gpio_set_value(gpio_lower_turret,true);
+			mutex_lock(&rotation_v_lock);
 			rotation_v = -1*rotation_v;
+			mutex_unlock(&rotation_v_lock);
 			msleep(rotation_v);
 			gpio_set_value(gpio_lower_turret,false);
 			mutex_lock(&rotation_v_lock);
