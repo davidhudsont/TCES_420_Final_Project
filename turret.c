@@ -101,22 +101,35 @@ static ssize_t FIRE_ALL_SET(struct kobject *kobj, struct kobj_attribute *attr, c
 	mutex_unlock(&fire_all_lock);
     return count;
 }
+static ssize_t ROTATE_H_SHOW(struct kobject *kobj, struct kobj_attribute *attr, char *buf){
+    return sprintf(buf,"FIRE ALL STATE: %d\n", FIRE_ONE);
+}
+
+static ssize_t ROTATE_H_SET(struct kobject *kobj, struct kobj_attribute *attr, const char *buf, size_t count){
+    mutex_lock(&rotation_h_lock);
+	int amount;
+    sscanf(buf,"%d",&amount); 
+	mutex_unlock(&rotation_h_lock);
+    return count;
+}
+
 static struct kobj_attribute nr_missile_attr = __ATTR(nr_missile,(S_IWUSR|S_IRUGO),NR_MISSILES_REMAINING,SET_NR_MISSILES);
 static struct kobj_attribute fire_one_attr = __ATTR(FIRE_ONE,(S_IWUSR|S_IRUGO),FIRE_ONE_SHOW,FIRE_ONE_SET);
 static struct kobj_attribute fire_all_attr = __ATTR(FIRE_ALL,(S_IWUSR|S_IRUGO),FIRE_ALL_SHOW,FIRE_ALL_SET);
+static struct kobj_attribute rotate_h_attr = __ATTR(FIRE_ALL,(S_IWUSR|S_IRUGO),FIRE_ALL_SHOW,FIRE_ALL_SET);
 
-
-static struct attribute *ebb_attrs[] = {
+static struct attribute *pi_attrs[] = {
     &nr_missile_attr.attr,
     &fire_one_attr.attr,
     &fire_all_attr.attr,
+	&rotate_h_attr.attr,
     NULL,  
 };
 
 static char tname[7] = "Turret";
 static struct attribute_group attr_group = {
     .name = tname,
-    .attrs = ebb_attrs,
+    .attrs = pi_attrs,
 };
 
 static struct kobject *pi_kobj;
@@ -189,6 +202,7 @@ static int __init turret_init(void) {
 	mutex_init(&nr_missiles_lock);
 	mutex_init(&fire_one_lock);
 	mutex_init(&fire_all_lock);
+	mutex_init(&rotation_h_lock);
 	int result = 0;
     pi_kobj = kobject_create_and_add("pi", kernel_kobj->parent);
     if (!pi_kobj){
