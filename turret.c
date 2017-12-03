@@ -54,14 +54,14 @@ MODULE_PARM_DESC(nr_missiles, " Amount of missiles remaing (max = 4 and min = 0,
 module_param(FIRE_ONE,uint,0664);
 MODULE_PARM_DESC(FIRE_ONE, " Firing One Interface To fire a missile set to 1");     ///< parameter description
 
-module_param(rotation_h_lock,uint,0664);
-MODULE_PARM_DESC(rotation_h_lock, " Firing All Interface To fire all missiles set to 1");
-
 module_param(FIRE_ALL,uint,0664);
 MODULE_PARM_DESC(FIRE_ALL, " Firing All Interface To fire all missiles set to 1");
 
-module_param(rotation_v_lock,uint,0664);
-MODULE_PARM_DESC(rotation_v_lock, " Firing All Interface To fire all missiles set to 1");
+module_param(rotation_h,uint,0664);
+MODULE_PARM_DESC(rotation_h, " Firing All Interface To fire all missiles set to 1");
+
+module_param(rotation_v,uint,0664);
+MODULE_PARM_DESC(rotation_v, " Firing All Interface To fire all missiles set to 1");
 
 
 static ssize_t NR_MISSILES_REMAINING(struct kobject *kobj, struct kobj_attribute *attr, char *buf){
