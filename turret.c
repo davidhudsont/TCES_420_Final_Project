@@ -255,6 +255,7 @@ static int __init turret_init(void) {
 	mutex_init(&fire_one_lock);
 	mutex_init(&fire_all_lock);
 	mutex_init(&rotation_h_lock);
+	mutex_init(&rotation_v_lock);
 	int result = 0;
 	pi_kobj = kobject_create_and_add("pi", kernel_kobj->parent);
 	if (!pi_kobj){
@@ -293,9 +294,9 @@ static int __init turret_init(void) {
 	task_rotate_h = kthread_run(Rotation_H,NULL,"Rotation_H_Thread");
 	task_rotate_v = kthread_run(Rotation_V,NULL,"Rotation_V_Thread");
 
-	if (IS_ERR((task_fire) || (task_rotate_h)||(task_rotate_v))) {
+	if (IS_ERR((task_fire)|(task_rotate_h)|(task_rotate_v))) {
 	printk(KERN_ALERT "Turret: Failed to create the task\n");
-	return PTR_ERR(task_fire);
+	return PTR_ERR((task_fire)|(task_rotate_h)|(task_rotate_v));
 	}
 	printk("<1> Loading Turret Module\n");
 	return result;
