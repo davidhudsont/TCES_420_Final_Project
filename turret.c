@@ -161,11 +161,16 @@ static struct task_struct *task_rotate_v;
 static int FIRING(void *arg) {
 	printk(KERN_INFO "Turret Firing: Thread has started running\n");
 	while(!kthread_should_stop()){
+		if(nr_missiles == 0){
+			FIRE_ONE = 0;
+			FIRE_ALL =0;
+			continue;
+		}
 		mutex_lock(&firing_lock);
 		set_current_state(TASK_RUNNING);
 		if ((FIRE_ONE == 1) && (nr_missiles > 0)) {
 			gpio_set_value(gpio_fire,FIRE_ONE);
-			ssleep(6);
+			msleep(4800);
 			mutex_lock(&nr_missiles_lock);
 			nr_missiles--;
 			mutex_unlock(&nr_missiles_lock);
@@ -176,7 +181,7 @@ static int FIRING(void *arg) {
 		}
 		if ((FIRE_ALL == 1) &&( nr_missiles > 0)) {
 			gpio_set_value(gpio_fire,FIRE_ALL);
-			ssleep(6*nr_missiles);
+			msleep(4800*nr_missiles);
 			mutex_lock(&nr_missiles_lock);
 			nr_missiles = 0;
 			mutex_unlock(&nr_missiles_lock);
@@ -189,7 +194,7 @@ static int FIRING(void *arg) {
 		set_current_state(TASK_INTERRUPTIBLE);
 	}
 	printk(KERN_INFO "Turret Firing: Thread has run to completion\n");
-    return 0;
+	return 0;
 }
 static int Rotation_H(void *arg) {
 	printk(KERN_INFO "Turret Rotation_H: Thread has started running\n");
@@ -229,7 +234,7 @@ static int Rotation_V(void *arg) {
 		set_current_state(TASK_RUNNING);
 		if (rotation_v > 0) {
 			gpio_set_value(gpio_raise_turret,true);
-			msleep(rotation_v);
+			msleep(rotation_v*100);
 			gpio_set_value(gpio_raise_turret,false);
 			mutex_lock(&rotation_v_lock);
 			rotation_v = 0;
@@ -240,7 +245,7 @@ static int Rotation_V(void *arg) {
 			mutex_lock(&rotation_v_lock);
 			rotation_v = -1*rotation_v;
 			mutex_unlock(&rotation_v_lock);
-			msleep(rotation_v);
+			msleep(rotation_v*100);
 			gpio_set_value(gpio_lower_turret,false);
 			mutex_lock(&rotation_v_lock);
 			rotation_v = 0;
@@ -332,6 +337,13 @@ static void __exit turret_exit(void) {
 	gpio_free(gpio_raise_turret);
 	gpio_free(gpio_lower_turret);
 	
+	mutex_destroy(&firing_lock);
+        mutex_destroy(&nr_missiles_lock);
+        mutex_destroy(&fire_one_lock);
+        mutex_destroy(&fire_all_lock);
+        mutex_destroy(&rotation_h_lock);
+        mutex_destroy(&rotation_v_lock);
+
     	printk(KERN_INFO "Removing Turret Module\n");
 }
 
