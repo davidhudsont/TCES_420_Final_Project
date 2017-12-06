@@ -23,3 +23,9 @@
 > $ cat nr_missiles
 * If you watn to change the value of a variable e.g.
 > $ echo 1 > FIRE_ALL
+
+## Module Removal
+> $ cd /home/pi/TCES_420_Final_Project
+
+> $ rmmod turret.ko
+* Check dmesg to see if turret uninstalled.
