@@ -5,10 +5,9 @@
 > $ git clone https://github.com/hkdavid74/TCES_420_Final_Project.git
 
 > $ cd TCES_420_Final_Project
- $ make
- $ sudo su
- $ insmod turret.ko
->
+> $ make
+> $ sudo su
+> $ insmod turret.ko
 * Check the dmesg to see if the turret installed
 > $ dmesg
 
