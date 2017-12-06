@@ -1,7 +1,22 @@
 # TCES_420_Final_Project
 
-# Kernel Tree installation
+## Kernel Tree installation
 * Follow this guide > https://www.raspberrypi.org/documentation/linux/kernel/building.md
+## Before Module Installation
+* Check your linux kernel version
+
+$ uname -r
+
+* Then check your kernel tree version
+
+$ cd your-kernel-tree
+
+$ sudo make modules_install
+
+* Then check the dep version number
+* If the kernel version number and kernel tree version number are the same you will 
+* be able to install a module.
+
 
 # Instructions
 ## Module Installation
