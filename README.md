@@ -1,5 +1,8 @@
 # TCES_420_Final_Project
 
+# Kernel Tree installation
+* Follow this guide > https://www.raspberrypi.org/documentation/linux/kernel/building.md
+
 # Instructions
 ## Module Installation
  $ git clone https://github.com/hkdavid74/TCES_420_Final_Project.git
@@ -25,7 +28,7 @@
 * If you want to see the value of each parameter use cat
 
  $ cat nr_missiles
-* If you watn to change the value of a variable e.g.
+* If you want to change the value of a variable e.g.
 
  $ echo 1 > FIRE_ALL
 
