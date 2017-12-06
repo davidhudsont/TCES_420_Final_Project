@@ -17,12 +17,16 @@
 
 ## Module Variables Location
  $ cd /sys/pi/Turret
+ 
 * If you want to see paramters
+ 
  $ ls 
 
 * If you want to see the value of each parameter use cat
+
  $ cat nr_missiles
 * If you watn to change the value of a variable e.g.
+
  $ echo 1 > FIRE_ALL
 
 ## Module Removal
