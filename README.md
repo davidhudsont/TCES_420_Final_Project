@@ -17,8 +17,6 @@ $ sudo make modules_install
 * If the kernel version number and kernel tree version number are the same you will 
 * be able to install a module.
 
-
-# Instructions
 ## Module Installation
  $ git clone https://github.com/hkdavid74/TCES_420_Final_Project.git
 
