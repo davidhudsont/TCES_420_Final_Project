@@ -17,8 +17,9 @@
 
 ## Module Variables Location
  $ cd /sys/pi/Turret
+* If you want to see paramters
+ $ ls 
 
- $ ls // To see the parameters
 * If you want to see the value of each parameter use cat
  $ cat nr_missiles
 * If you watn to change the value of a variable e.g.
