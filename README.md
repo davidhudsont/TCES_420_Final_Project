@@ -13,19 +13,20 @@
  $ insmod turret.ko
 
 * Check the dmesg to see if the turret installed
-> $ dmesg
+ $ dmesg
 
 ## Module Variables Location
-> $ cd /sys/pi/Turret
+ $ cd /sys/pi/Turret
 
-> $ ls // To see the parameters
+ $ ls // To see the parameters
 * If you want to see the value of each parameter use cat
-> $ cat nr_missiles
+ $ cat nr_missiles
 * If you watn to change the value of a variable e.g.
-> $ echo 1 > FIRE_ALL
+ $ echo 1 > FIRE_ALL
 
 ## Module Removal
-> $ cd /home/pi/TCES_420_Final_Project
+ $ cd /home/pi/TCES_420_Final_Project
 
-> $ rmmod turret.ko
+ $ rmmod turret.ko
+ 
 * Check dmesg to see if turret uninstalled.
