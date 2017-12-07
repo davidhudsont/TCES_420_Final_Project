@@ -16,6 +16,35 @@ $ sudo make modules_install
 * Then check the dep version number
 * If the kernel version number and kernel tree version number are the same you will 
 * be able to install a module.
+## Pin Setup
+Pin 3A = GPIO 04 : 
+
+Description :Moves the turret up in the z dimension 
+
+Input : Digital High
+| Turret Pin      | Pi Pin                  |
+|Pin 4A = GPIO 17 |  GPIO_Pin # = 19        |
+
+Description : Moves the turret down in the z dimension
+
+Input : Digital High
+
+Pin 1A = GPIO 27:
+
+Description: Moves Turret Counter Clockwise
+
+Input : Digital High
+
+Pin 2A = GPIO 22:
+
+Description: Moves Turret Clockwise
+
+Input : Digital High
+
+Pin 4A between 5V and GND:
+Description : Rotates the Barrel and Shoots a Bullet
+
+Input : Digital High
 
 ## Module Installation
  $ git clone https://github.com/hkdavid74/TCES_420_Final_Project.git
