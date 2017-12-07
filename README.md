@@ -51,7 +51,7 @@ $ sudo make modules_install
 ## Module Variables Location
  $ cd /sys/pi/Turret
  
-* If you want to see paramters
+* If you want to see parameters
  
  $ ls 
 
