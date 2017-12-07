@@ -14,8 +14,8 @@ $ cd your-kernel-tree
 $ sudo make modules_install
 
 * Then check the dep version number
-* If the kernel version number and kernel tree version number are the same you will 
-* be able to install a module.
+* If the kernel version number and kernel tree version number are the same you will be able to install a module.
+
 ## Pin Setup
 | Turret Pin      | Pi Pin                  | Description                                         |Input          |
 | --------------- |-----------------------|---------------------------------------------------|--------------|
