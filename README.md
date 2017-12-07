@@ -25,6 +25,8 @@ $ sudo make modules_install
 |Pin 2A = GPIO 22 |  GPIO_Pin # = 05        |Description: Moves Turret Clockwise  |   Digital High|
 |Pin 4A between 5V and GND |  GPIO_Pin # = 12        |Description : Rotates the Barrel and Shoots a Bullet  |   Digital High|
 
+Pin Layout
+
 ![alt text][logo]
 
 [logo]: https://github.com/hkdavid74/TCES_420_Final_Project/CES420Project4_PinLayout.png "Pin Layout"
