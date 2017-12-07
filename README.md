@@ -23,15 +23,16 @@ Description :Moves the turret up in the z dimension
 
 Input : Digital High
 
-| Turret Pin      | Pi Pin                  |
-| ------------- |:-------------:|
-|Pin 4A = GPIO 17 |  GPIO_Pin # = 19        |
+| Turret Pin      | Pi Pin                  || Description||Input |
+| ------------- |:-------------:||:-------------:||:--------------:|
+|Pin 4A = GPIO 17 |  GPIO_Pin # = 19        | |Description :Moves the turret up in the z dimension  || Digital High|
+||||
 
 Description : Moves the turret down in the z dimension
 
 Input : Digital High
 
-Pin 1A = GPIO 27:
+Pin 1A = GPIO 27
 
 Description: Moves Turret Counter Clockwise
 
