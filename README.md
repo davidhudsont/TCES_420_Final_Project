@@ -29,7 +29,7 @@ Pin Layout
 
 ![alt text][logo]
 
-[logo]: https://github.com/hkdavid74/TCES_420_Final_Project/CES420Project4_PinLayout.png "Pin Layout"
+[logo]: https://github.com/hkdavid74/TCES_420_Final_Project/blob/davidhv2/CES420Project4_PinLayout.png "Pin Layout"
 
 
 ## Module Installation
