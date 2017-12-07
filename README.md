@@ -24,7 +24,7 @@ Description :Moves the turret up in the z dimension
 Input : Digital High
 
 | Turret Pin      | Pi Pin                  || Description||Input |
-| ------------- |:-------------:||:-------------:||:--------------:|
+| ------------- |:-------------:||:-------------:||--------------:|
 |Pin 4A = GPIO 17 |  GPIO_Pin # = 19        | |Description :Moves the turret up in the z dimension  || Digital High|
 ||||
 
