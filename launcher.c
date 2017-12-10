@@ -268,7 +268,7 @@ static int OPERATING(void *arg) {
         }
         if (rotation_h > 0) {
             gpio_set_value(gpio_turn_c,true);
-            msleep(rotation_h*10);
+            msleep(rotation_h*100);
             gpio_set_value(gpio_turn_c,false);
             mutex_lock(&rotation_h_lock);
             rotation_h = 0;
@@ -280,7 +280,7 @@ static int OPERATING(void *arg) {
             mutex_lock(&rotation_h_lock);
             rotation_h = -1*rotation_h;
             mutex_unlock(&rotation_h_lock);
-            msleep(rotation_h*10);
+            msleep(rotation_h*100);
             gpio_set_value(gpio_turn_cc,false);
             mutex_lock(&rotation_h_lock);
             rotation_h = 0;
