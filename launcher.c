@@ -25,6 +25,12 @@ static unsigned int gpio_lower_turret = 19;
 static unsigned int nr_missiles = 4;
 static int rotation_h = 0;
 static int rotation_v = 0;
+
+//////////////////////////////
+static int max_rotation_h = 0;
+static int max_rotation_v = 0;
+//////////////////////////////
+
 static unsigned int FIRE_ONE = 0;
 static unsigned int FIRE_ALL = 0;
 static struct mutex firing_lock;
@@ -62,6 +68,14 @@ MODULE_PARM_DESC(rotation_h, " Firing All Interface To fire all missiles set to 
 
 module_param(rotation_v,uint,0664);
 MODULE_PARM_DESC(rotation_v, " Firing All Interface To fire all missiles set to 1");
+
+///////////////////////////////////////////////////////
+module_param(max_rotation_v,uint,0664);
+MODULE_PARM_DESC(max_rotation_v, " Firing All Interface To fire all missiles set to 1");
+
+module_param(max_rotation_h,uint,0664);
+MODULE_PARM_DESC(max_rotation_h, " Firing All Interface To fire all missiles set to 1");
+///////////////////////////////////////////////////////
 
 
 static ssize_t NR_MISSILES_REMAINING(struct kobject *kobj, struct kobj_attribute *attr, char *buf){
@@ -132,6 +146,44 @@ static ssize_t ROTATE_V_SET(struct kobject *kobj, struct kobj_attribute *attr, c
     mutex_unlock(&rotation_v_lock);
     return count;
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+static ssize_t MAX_ROTATE_H_SHOW(struct kobject *kobj, struct kobj_attribute *attr, char *buf){
+        return sprintf(buf,"Rotate H STATE: %d\n", max_rotation_h);
+}
+
+static ssize_t MAX_ROTATE_H_SET(struct kobject *kobj, struct kobj_attribute *attr, const char *buf, size_t count){
+    mutex_lock(&rotation_h_lock);
+    int amount;
+    sscanf(buf,"%d",&amount);
+    if(amount >0){
+        amount = 1;
+    }else if(amount <0){
+        amount = -1;
+    }
+    max_rotate_h = amount
+    rotation_h = amount*100;
+    mutex_unlock(&rotation_h_lock);
+    return count;
+}
+static ssize_t MAX_ROTATE_V_SHOW(struct kobject *kobj, struct kobj_attribute *attr, char *buf){
+    return sprintf(buf,"Rotate V STATE: %d\n", max_rotation_v);
+}
+
+static ssize_t MAX_ROTATE_V_SET(struct kobject *kobj, struct kobj_attribute *attr, const char *buf, size_t count){
+    mutex_lock(&rotation_v_lock);
+    int amount;
+    sscanf(buf,"%d",&amount);
+    if(amount >0){
+        amount = 1;
+    }else if(amount <0){
+        amount = -1;
+    }
+    max_rotate_v = amount;
+    rotation_v = amount*100;
+    mutex_unlock(&rotation_v_lock);
+    return count;
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 static struct kobj_attribute nr_missile_attr = __ATTR(nr_missile,(S_IWUSR|S_IRUGO),NR_MISSILES_REMAINING,SET_NR_MISSILES);
 static struct kobj_attribute fire_one_attr = __ATTR(FIRE_ONE,(S_IWUSR|S_IRUGO),FIRE_ONE_SHOW,FIRE_ONE_SET);
 static struct kobj_attribute fire_all_attr = __ATTR(FIRE_ALL,(S_IWUSR|S_IRUGO),FIRE_ALL_SHOW,FIRE_ALL_SET);
@@ -235,6 +287,8 @@ static int OPERATING(void *arg) {
             printk(KERN_ALERT "Moving Turret Right");
             mutex_unlock(&rotation_h_lock);
         }
+        max_rotate_h = 0;
+        max_rotate_v = 0;
         mutex_unlock(&firing_lock);
         set_current_state(TASK_INTERRUPTIBLE);
     }
