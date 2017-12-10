@@ -64,17 +64,17 @@ module_param(FIRE_ALL,uint,0664);
 MODULE_PARM_DESC(FIRE_ALL, " Firing All Interface To fire all missiles set to 1");
 
 module_param(rotation_h,uint,0664);
-MODULE_PARM_DESC(rotation_h, " Firing All Interface To fire all missiles set to 1");
+MODULE_PARM_DESC(rotation_h, "Rotate the shooter clockwize if int is postive and counterclockwise if negative, does nothing if 0");
 
 module_param(rotation_v,uint,0664);
-MODULE_PARM_DESC(rotation_v, " Firing All Interface To fire all missiles set to 1");
+MODULE_PARM_DESC(rotation_v, " Raise the shooter if positve and lower the shooter if it is negative, does nothing if 0");
 
 ///////////////////////////////////////////////////////
-module_param(max_rotation_v,uint,0664);
-MODULE_PARM_DESC(max_rotation_v, " Firing All Interface To fire all missiles set to 1");
-
 module_param(max_rotation_h,uint,0664);
-MODULE_PARM_DESC(max_rotation_h, " Firing All Interface To fire all missiles set to 1");
+MODULE_PARM_DESC(max_rotation_v, "Rotate the shooter clockwize edge if int is postive and counterclockwise edge if negative,does nothing if 0");
+
+module_param(max_rotation_v,uint,0664);
+MODULE_PARM_DESC(max_rotation_h, " Raise shooter to max vertiacal ark if postive and lower shooter to lowest vertical ark, does nothing if 0");
 ///////////////////////////////////////////////////////
 
 
