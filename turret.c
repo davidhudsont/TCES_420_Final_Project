@@ -25,6 +25,8 @@ static unsigned int gpio_lower_turret = 19;
 static unsigned int nr_missiles = 4;
 static int rotation_h = 0;
 static int rotation_v = 0;
+static int max_Rotation_h = 0;
+static int max_Rotation_v = 0;
 static unsigned int FIRE_ONE = 0;
 static unsigned int FIRE_ALL = 0;
 static struct mutex firing_lock;
@@ -58,9 +60,15 @@ module_param(FIRE_ALL,uint,0664);
 MODULE_PARM_DESC(FIRE_ALL, " Firing All Interface To fire all missiles set to 1");
 
 module_param(rotation_h,uint,0664);
-MODULE_PARM_DESC(rotation_h, " Firing All Interface To fire all missiles set to 1");
+MODULE_PARM_DESC(rotation_h, "Rotate the shooter ");
 
 module_param(rotation_v,uint,0664);
+MODULE_PARM_DESC(rotation_v, " Firing All Interface To fire all missiles set to 1");
+
+module_param(max_Rotation_h,uint,0664);
+MODULE_PARM_DESC(rotation_v, " Firing All Interface To fire all missiles set to 1");
+
+module_param(max_Rotation_v,uint,0664);
 MODULE_PARM_DESC(rotation_v, " Firing All Interface To fire all missiles set to 1");
 
 
@@ -209,7 +217,7 @@ static int Rotation_H(void *arg) {
 			rotation_h = 0;
 			mutex_unlock(&rotation_h_lock);
 		}
-		else if (rotation_h < 0) {
+		if (rotation_h < 0) {
 			gpio_set_value(gpio_turn_cc,true);
 			mutex_lock(&rotation_h_lock);
 			rotation_h = -1*rotation_h;
@@ -218,6 +226,22 @@ static int Rotation_H(void *arg) {
 			gpio_set_value(gpio_turn_cc,false);
 			mutex_lock(&rotation_h_lock);
 			rotation_h = 0;
+			mutex_unlock(&rotation_h_lock);
+		}
+		if(max_Rotaion_h > 0){
+			gpio_set_value(gpio_turn_c,true);
+			msleep(20000);
+			gpio_set_value(gpio_turn_c,false);
+			mutex_lock(&rotation_h_lock);
+			max_Rotaion_h = 0;
+			mutex_unlock(&rotation_h_lock);
+		}
+		else if (max_Rotaion_h < 0) {
+			gpio_set_value(gpio_turn_cc,true);
+			msleep(20000);
+			gpio_set_value(gpio_turn_cc,false);
+			mutex_lock(&rotation_h_lock);
+			max_Rotaion_h = 0;
 			mutex_unlock(&rotation_h_lock);
 		}
 		mutex_unlock(&firing_lock);
@@ -249,6 +273,22 @@ static int Rotation_V(void *arg) {
 			gpio_set_value(gpio_lower_turret,false);
 			mutex_lock(&rotation_v_lock);
 			rotation_v = 0;
+			mutex_unlock(&rotation_v_lock);
+		}
+		if (max_Rotation_v > 0) {
+			gpio_set_value(gpio_raise_turret,true);
+			msleep(20000);
+			gpio_set_value(gpio_raise_turret,false);
+			mutex_lock(&rotation_v_lock);
+			max_Rotation_v = 0;
+			mutex_unlock(&rotation_v_lock);
+		}
+		else if (max_Rotation_v < 0) {
+			gpio_set_value(gpio_lower_turret,true);
+			msleep(20000);
+			gpio_set_value(gpio_lower_turret,false);
+			mutex_lock(&rotation_v_lock);
+			max_Rotation_v = 0;
 			mutex_unlock(&rotation_v_lock);
 		}
 		mutex_unlock(&firing_lock);
