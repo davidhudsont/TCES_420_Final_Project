@@ -199,7 +199,7 @@ static int OPERATING(void *arg) {
             printk(KERN_INFO "Raising Turret");
             mutex_unlock(&rotation_v_lock);
         }
-        else if (rotation_v < 0) {
+        if (rotation_v < 0) {
             gpio_set_value(gpio_lower_turret,true);
             mutex_lock(&rotation_v_lock);
             rotation_v = -1*rotation_v;
@@ -220,7 +220,7 @@ static int OPERATING(void *arg) {
             printk(KERN_INFO "Moving Turret Left");
             mutex_unlock(&rotation_h_lock);
         }
-        else if (rotation_h < 0) {
+        if (rotation_h < 0) {
             gpio_set_value(gpio_turn_cc,true);
             mutex_lock(&rotation_h_lock);
             rotation_h = -1*rotation_h;
@@ -287,8 +287,6 @@ static int __init turret_init(void) {
     printk(KERN_INFO "Loading Turret Module\n");
     return result;
 }
-
-
 
 static void __exit turret_exit(void) {
     kthread_stop(task_operate);
