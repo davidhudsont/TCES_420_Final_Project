@@ -46,6 +46,7 @@ $ sudo make modules_install
  $ insmod turret.ko
 
 * Check the dmesg to see if the turret installed
+
  $ dmesg
 
 ## Module Variables Location
