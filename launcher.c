@@ -160,9 +160,12 @@ static int OPERATING(void *arg) {
     printk(KERN_INFO "Turret Operation: Thread has started running\n");
     while(!kthread_should_stop()){
         if(nr_missiles == 0){
+            mutex_lock(&fire_one_lock);
             FIRE_ONE = 0;
-            FIRE_ALL =0;
-            continue;
+            mutex_unlock(&fire_one_lock);
+            mutex_lock(&fire_all_lock);
+            FIRE_ALL = 0;
+            mutex_unlock(&fire_all_lock);
         }
         mutex_lock(&firing_lock);
         set_current_state(TASK_RUNNING);
@@ -174,7 +177,7 @@ static int OPERATING(void *arg) {
             mutex_unlock(&nr_missiles_lock);
             mutex_lock(&fire_one_lock);
             FIRE_ONE = 0;
-            printk(KERN_INFO "Turret firing one missle");
+            printk(KERN_ALERT "Turret firing one missle");
             mutex_unlock(&fire_one_lock);
             gpio_set_value(gpio_fire,FIRE_ONE);
         }
@@ -186,7 +189,7 @@ static int OPERATING(void *arg) {
             mutex_unlock(&nr_missiles_lock);
             mutex_lock(&fire_all_lock);
             FIRE_ALL = 0;
-            printk(KERN_INFO "Turret firing all missles");
+            printk(KERN_ALERT "Turret firing all missles");
             mutex_unlock(&fire_all_lock);
             gpio_set_value(gpio_fire,FIRE_ALL);
         }
@@ -196,7 +199,7 @@ static int OPERATING(void *arg) {
             gpio_set_value(gpio_raise_turret,false);
             mutex_lock(&rotation_v_lock);
             rotation_v = 0;
-            printk(KERN_INFO "Raising Turret");
+            printk(KERN_ALERT "Raising Turret");
             mutex_unlock(&rotation_v_lock);
         }
         if (rotation_v < 0) {
@@ -208,7 +211,7 @@ static int OPERATING(void *arg) {
             gpio_set_value(gpio_lower_turret,false);
             mutex_lock(&rotation_v_lock);
             rotation_v = 0;
-            printk(KERN_INFO "Lowering Turret");
+            printk(KERN_ALERT "Lowering Turret");
             mutex_unlock(&rotation_v_lock);
         }
         if (rotation_h > 0) {
@@ -217,7 +220,7 @@ static int OPERATING(void *arg) {
             gpio_set_value(gpio_turn_c,false);
             mutex_lock(&rotation_h_lock);
             rotation_h = 0;
-            printk(KERN_INFO "Moving Turret Left");
+            printk(KERN_ALERT "Moving Turret Left");
             mutex_unlock(&rotation_h_lock);
         }
         if (rotation_h < 0) {
@@ -229,7 +232,7 @@ static int OPERATING(void *arg) {
             gpio_set_value(gpio_turn_cc,false);
             mutex_lock(&rotation_h_lock);
             rotation_h = 0;
-            printk(KERN_INFO "Moving Turret Right");
+            printk(KERN_ALERT "Moving Turret Right");
             mutex_unlock(&rotation_h_lock);
         }
         mutex_unlock(&firing_lock);
