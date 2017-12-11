@@ -26,10 +26,8 @@ static unsigned int nr_missiles = 4;
 static int rotation_h = 0;
 static int rotation_v = 0;
 
-//////////////////////////////
 static int max_rotation_h = 0;
 static int max_rotation_v = 0;
-//////////////////////////////
 
 static unsigned int FIRE_ONE = 0;
 static unsigned int FIRE_ALL = 0;
@@ -69,14 +67,11 @@ MODULE_PARM_DESC(rotation_h, "Rotate the shooter clockwize if int is postive and
 module_param(rotation_v,uint,0664);
 MODULE_PARM_DESC(rotation_v, " Raise the shooter if positve and lower the shooter if it is negative, does nothing if 0");
 
-///////////////////////////////////////////////////////
 module_param(max_rotation_h,uint,0664);
 MODULE_PARM_DESC(max_rotation_v, "Rotate the shooter clockwize edge if int is postive and counterclockwise edge if negative,does nothing if 0");
 
 module_param(max_rotation_v,uint,0664);
 MODULE_PARM_DESC(max_rotation_h, " Raise shooter to max vertiacal ark if postive and lower shooter to lowest vertical ark, does nothing if 0");
-///////////////////////////////////////////////////////
-
 
 static ssize_t NR_MISSILES_REMAINING(struct kobject *kobj, struct kobj_attribute *attr, char *buf){
     return sprintf(buf,"Number of missiles remaining: %d\n", nr_missiles);
