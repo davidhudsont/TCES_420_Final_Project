@@ -189,6 +189,8 @@ static struct kobj_attribute fire_one_attr = __ATTR(FIRE_ONE,(S_IWUSR|S_IRUGO),F
 static struct kobj_attribute fire_all_attr = __ATTR(FIRE_ALL,(S_IWUSR|S_IRUGO),FIRE_ALL_SHOW,FIRE_ALL_SET);
 static struct kobj_attribute rotate_h_attr = __ATTR(rotation_h,(S_IWUSR|S_IRUGO),ROTATE_H_SHOW,ROTATE_H_SET);
 static struct kobj_attribute rotate_v_attr = __ATTR(rotation_v,(S_IWUSR|S_IRUGO),ROTATE_V_SHOW,ROTATE_V_SET);
+static struct kobj_attribute rotate_h_attr = __ATTR(rotation_h,(S_IWUSR|S_IRUGO),MAX_ROTATE_H_SHOW,ROTATE_H_SET);
+static struct kobj_attribute rotate_v_attr = __ATTR(rotation_v,(S_IWUSR|S_IRUGO),MAX_ROTATE_V_SHOW,ROTATE_V_SET);
 
 static struct attribute *pi_attrs[] = {
     &nr_missile_attr.attr,
@@ -196,6 +198,8 @@ static struct attribute *pi_attrs[] = {
     &fire_all_attr.attr,
     &rotate_h_attr.attr,
     &rotate_v_attr.attr,
+    &max_rotate_h_attr.attr,
+    &max_rotate_v_attr.attr,
     NULL,  
 };
 
