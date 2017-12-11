@@ -160,7 +160,7 @@ static ssize_t MAX_ROTATE_H_SET(struct kobject *kobj, struct kobj_attribute *att
     }else if(amount <0){
         amount = -1;
     }
-    max_rotate_h = amount
+    max_rotation_h = amount;
     rotation_h = amount*100;
     mutex_unlock(&rotation_h_lock);
     return count;
@@ -178,7 +178,7 @@ static ssize_t MAX_ROTATE_V_SET(struct kobject *kobj, struct kobj_attribute *att
     }else if(amount <0){
         amount = -1;
     }
-    max_rotate_v = amount;
+    max_rotation_v = amount;
     rotation_v = amount*100;
     mutex_unlock(&rotation_v_lock);
     return count;
@@ -287,8 +287,8 @@ static int OPERATING(void *arg) {
             printk(KERN_ALERT "Moving Turret Right");
             mutex_unlock(&rotation_h_lock);
         }
-        max_rotate_h = 0;
-        max_rotate_v = 0;
+        max_rotation_v = 0;
+        max_rotation_h = 0;
         mutex_unlock(&firing_lock);
         set_current_state(TASK_INTERRUPTIBLE);
     }
