@@ -155,7 +155,7 @@ static ssize_t MAX_ROTATE_H_SET(struct kobject *kobj, struct kobj_attribute *att
         amount = -1;
     }
     max_rotation_h = amount;
-    rotation_h = amount*30;
+    rotation_h = amount*25;
     mutex_unlock(&rotation_h_lock);
     return count;
 }
@@ -173,7 +173,7 @@ static ssize_t MAX_ROTATE_V_SET(struct kobject *kobj, struct kobj_attribute *att
         amount = -1;
     }
     max_rotation_v = amount;
-    rotation_v = amount*30;
+    rotation_v = amount*25;
     mutex_unlock(&rotation_v_lock);
     return count;
 }
