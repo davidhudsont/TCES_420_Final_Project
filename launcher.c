@@ -7,7 +7,6 @@
 #include <linux/delay.h>      // Using this header for the msleep() function
 #include <linux/mutex.h>
 
-
 MODULE_LICENSE("GPL");              ///< The license type -- this affects runtime behavior
 MODULE_AUTHOR("David Hudson, David Vercillo, Thien Nguyen");      ///< The author -- visible when you use modinfo
 MODULE_DESCRIPTION("This module controls the DreamCheeky Turret");  ///< The description -- see modinfo
