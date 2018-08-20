@@ -27,15 +27,15 @@ $ sudo make modules_install
 
 ![alt text][logo]
 
-[logo]: https://github.com/hkdavid74/TCES_420_Final_Project/blob/davidhv2/CES420Project4_PinLayout.png "Pin Layout"
+[logo]: https://github.com/davidhudsont/TCES_420_Final_Project/blob/davidhv2/CES420Project4_PinLayout.png "Pin Layout"
 
 ![alt_text][logo2]
 
-[logo2]: https://github.com/hkdavid74/TCES_420_Final_Project/blob/davidhv2/pi3_gpio.png "Pi Pin Layout"
+[logo2]: https://github.com/davidhudsont/TCES_420_Final_Project/blob/davidhv2/pi3_gpio.png "Pi Pin Layout"
 
 
 ## Module Installation
- $ git clone https://github.com/hkdavid74/TCES_420_Final_Project.git
+ $ git clone https://github.com/davidhudsont/TCES_420_Final_Project.git
 
  $ cd TCES_420_Final_Project
 
