@@ -10,7 +10,7 @@
 MODULE_LICENSE("GPL");              ///< The license type -- this affects runtime behavior
 MODULE_AUTHOR("David Hudson, David Vercillo, Thien Nguyen");      ///< The author -- visible when you use modinfo
 MODULE_DESCRIPTION("This module controls the DreamCheeky Turret");  ///< The description -- see modinfo
-MODULE_VERSION("0.1");  
+MODULE_VERSION("1.0");  
 
 // 5V Pins 2 and 4 are for powering the turret
 // GND Pins 6,9,14,20,25,30,34,39
@@ -61,16 +61,16 @@ module_param(FIRE_ALL,uint,0664);
 MODULE_PARM_DESC(FIRE_ALL, " Firing All Interface To fire all missiles set to 1");
 
 module_param(rotation_h,uint,0664);
-MODULE_PARM_DESC(rotation_h, "Rotate the shooter clockwize if int is postive and counterclockwise if negative, does nothing if 0");
+MODULE_PARM_DESC(rotation_h, "Rotate the shooter clockwise if int is postive and counterclockwise if negative, does nothing if 0");
 
 module_param(rotation_v,uint,0664);
 MODULE_PARM_DESC(rotation_v, " Raise the shooter if positve and lower the shooter if it is negative, does nothing if 0");
 
 module_param(max_rotation_h,uint,0664);
-MODULE_PARM_DESC(max_rotation_v, "Rotate the shooter clockwize edge if int is postive and counterclockwise edge if negative,does nothing if 0");
+MODULE_PARM_DESC(max_rotation_v, "Rotate the shooter clockwise edge if int is postive and counterclockwise edge if negative,does nothing if 0");
 
 module_param(max_rotation_v,uint,0664);
-MODULE_PARM_DESC(max_rotation_h, " Raise shooter to max vertiacal ark if postive and lower shooter to lowest vertical ark, does nothing if 0");
+MODULE_PARM_DESC(max_rotation_h, " Raise shooter to max vertical ark if postive and lower shooter to lowest vertical ark, does nothing if 0");
 
 static ssize_t NR_MISSILES_REMAINING(struct kobject *kobj, struct kobj_attribute *attr, char *buf){
     return sprintf(buf,"Number of missiles remaining: %d\n", nr_missiles);
