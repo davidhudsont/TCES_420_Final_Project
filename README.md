@@ -1,5 +1,8 @@
 # TCES_420_Final_Project
 
+## Helpful Tutorial
+* http://derekmolloy.ie/kernel-gpio-programming-buttons-and-leds/
+
 ## Kernel Tree installation
 * Follow this guide > https://www.raspberrypi.org/documentation/linux/kernel/building.md
 ## Before Module Installation
